@@ -562,18 +562,13 @@ public class OPEN_HASH_MAP KEY_VALUE_GENERIC extends ABSTRACT_MAP KEY_VALUE_GENE
 	SUPPRESS_WARNINGS_KEY_UNCHECKED
 	private int find(final KEY_GENERIC_TYPE k) {
 		if (KEY_EQUALS_NULL(k)) return containsNullKey ? n : -(n + 1);
-
-		KEY_GENERIC_TYPE curr;
-		final KEY_GENERIC_TYPE[] key = this.key;
-		int pos;
-
 		// The starting point.
-		if (KEY_IS_NULL(curr = key[pos = KEY2INTHASH(k) & mask])) return -(pos + 1);
-		if (KEY_EQUALS_NOT_NULL(k, curr)) return pos;
+		int pos = KEY2INTHASH_CAST(k) - 1; // -1 because we add 1 in the loop.
 		// There's always an unused entry.
-		while(true) {
+		while (true) {
+        		KEY_GENERIC_TYPE curr = key[pos = pos + 1 & mask];
 			if (KEY_IS_NULL(curr = key[pos = (pos + 1) & mask])) return -(pos + 1);
-			if (KEY_EQUALS_NOT_NULL(k, curr)) return pos;
+			if (KEY_EQUALS_NOT_NULL_CAST(k, curr)) return pos;
 		}
 	}
 
@@ -1040,16 +1035,11 @@ public class OPEN_HASH_MAP KEY_VALUE_GENERIC extends ABSTRACT_MAP KEY_VALUE_GENE
 	SUPPRESS_WARNINGS_KEY_UNCHECKED
 	public VALUE_GENERIC_TYPE GET_VALUE(final KEY_TYPE k) {
 		if (KEY_EQUALS_NULL(KEY_GENERIC_CAST k)) return containsNullKey ? value[n] : defRetValue;
-
-		KEY_GENERIC_TYPE curr;
-		final KEY_GENERIC_TYPE[] key = this.key;
-		int pos;
-
 		// The starting point.
-		if (KEY_IS_NULL(curr = key[pos = KEY2INTHASH_CAST(k) & mask])) return defRetValue;
-		if (KEY_EQUALS_NOT_NULL_CAST(k, curr)) return value[pos];
+		int pos = KEY2INTHASH_CAST(k) - 1; // -1 because we add 1 in the loop.
 		// There's always an unused entry.
-		while(true) {
+		while (true) {
+        		KEY_GENERIC_TYPE curr = key[pos = pos + 1 & mask];
 			if (KEY_IS_NULL(curr = key[pos = (pos + 1) & mask])) return defRetValue;
 			if (KEY_EQUALS_NOT_NULL_CAST(k, curr)) return value[pos];
 		}
@@ -1059,16 +1049,11 @@ public class OPEN_HASH_MAP KEY_VALUE_GENERIC extends ABSTRACT_MAP KEY_VALUE_GENE
 	SUPPRESS_WARNINGS_KEY_UNCHECKED
 	public boolean containsKey(final KEY_TYPE k) {
 		if (KEY_EQUALS_NULL(KEY_GENERIC_CAST k)) return containsNullKey;
-
-		KEY_GENERIC_TYPE curr;
-		final KEY_GENERIC_TYPE[] key = this.key;
-		int pos;
-
 		// The starting point.
-		if (KEY_IS_NULL(curr = key[pos = KEY2INTHASH_CAST(k) & mask])) return false;
-		if (KEY_EQUALS_NOT_NULL_CAST(k, curr)) return true;
+		int pos = KEY2INTHASH_CAST(k) - 1; // -1 because we add 1 in the loop.
 		// There's always an unused entry.
-		while(true) {
+		while (true) {
+        		KEY_GENERIC_TYPE curr = key[pos = pos + 1 & mask];
 			if (KEY_IS_NULL(curr = key[pos = (pos + 1) & mask])) return false;
 			if (KEY_EQUALS_NOT_NULL_CAST(k, curr)) return true;
 		}
@@ -1090,16 +1075,11 @@ public class OPEN_HASH_MAP KEY_VALUE_GENERIC extends ABSTRACT_MAP KEY_VALUE_GENE
 	SUPPRESS_WARNINGS_KEY_UNCHECKED
 	public VALUE_GENERIC_TYPE getOrDefault(final KEY_TYPE k, final VALUE_GENERIC_TYPE defaultValue) {
 		if (KEY_EQUALS_NULL(KEY_GENERIC_CAST k)) return containsNullKey ? value[n] : defaultValue;
-
-		KEY_GENERIC_TYPE curr;
-		final KEY_GENERIC_TYPE[] key = this.key;
-		int pos;
-
 		// The starting point.
-		if (KEY_IS_NULL(curr = key[pos = KEY2INTHASH_CAST(k) & mask])) return defaultValue;
-		if (KEY_EQUALS_NOT_NULL_CAST(k, curr)) return value[pos];
+		int pos = KEY2INTHASH_CAST(k) - 1; // -1 because we add 1 in the loop.
 		// There's always an unused entry.
-		while(true) {
+		while (true) {
+        		KEY_GENERIC_TYPE curr = key[pos = pos + 1 & mask];
 			if (KEY_IS_NULL(curr = key[pos = (pos + 1) & mask])) return defaultValue;
 			if (KEY_EQUALS_NOT_NULL_CAST(k, curr)) return value[pos];
 		}
